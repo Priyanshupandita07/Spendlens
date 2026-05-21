@@ -8,7 +8,7 @@ Built as a lead-generation asset for [Credex](https://credex.rocks), which sourc
 
 ## Live URL
 
-> _Vercel deployment URL — add after first deploy_
+https://spendlens-ivory.vercel.app/
 
 ---
 
