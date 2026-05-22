@@ -40,4 +40,22 @@ Day 3 is the audit engine deep-dive — add more edge case rules, write addition
 
 ---
 
-<!-- Day 3–7 entries will be added each day -->
+## Day 3 — 2025-05-22
+
+**Hours worked:** 5
+
+**What I did:**
+Built the AI summary feature end-to-end. Created a Vercel serverless function (api/summary.ts) that calls the Anthropic API server-side — keeping the API key out of the browser bundle entirely. Added rate limiting (10 req/min per IP) to prevent abuse. Built a useAISummary hook on the client that calls the serverless function with an 8-second timeout, then falls back to a deterministic template summary if the API fails. Inserted the AI summary card into the results page with a loading spinner. Wrote PROMPTS.md documenting the full prompt, earlier versions that did not work, and reasoning behind each instruction. Fixed a bug where formData was not being stored in state on the results page.
+
+**What I learned:**
+Cannot call the Anthropic API directly from the browser — the API key would be exposed in the JS bundle. A Vercel serverless function is the correct pattern. Also learned that prompt engineering for short-form summaries requires very explicit format constraints or the model defaults to bullet points and headers.
+
+**Blockers / what I am stuck on:**
+Need to add ANTHROPIC_API_KEY to Vercel environment variables to make the AI summary live. Supabase schema still needs to be created — shareable URLs will not work until the DB tables exist.
+
+**Plan for tomorrow:**
+Set up Supabase tables, add env vars to Vercel, wire up shareable URLs end-to-end, and start the lead capture email flow with Resend.
+
+---
+
+<!-- Day 4-7 entries will be added each day -->

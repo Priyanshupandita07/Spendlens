@@ -119,6 +119,9 @@ export interface ToolAuditResult {
   potentialMonthlySavings: number
   potentialAnnualSavings: number
   credexOpportunity: boolean
+  alternativeTool?: string
+  alternativePlan?: string
+  alternativeCostPerSeat?: number
 }
 
 export interface AuditSummary {

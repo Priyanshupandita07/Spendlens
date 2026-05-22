@@ -159,3 +159,109 @@ describe('Use-case fit', () => {
     expect(wsResult.potentialMonthlySavings).toBeGreaterThan(0)
   })
 })
+
+// ─── Test 7: GitHub Copilot Enterprise overkill for small team ────────────────
+describe('GitHub Copilot audit', () => {
+  it('recommends downgrade from Enterprise to Business for <10 seats', () => {
+    const form = makeForm([
+      { toolId: 'github_copilot', plan: 'enterprise', monthlySpend: 156, seats: 4 },
+    ])
+    const result = runAudit(form)
+    const r = result.toolResults.find((r) => r.toolId === 'github_copilot')!
+
+    expect(r.recommendationType).toBe('downgrade_plan')
+    // Enterprise=$39, Business=$19, 4 seats = $80 savings
+    expect(r.potentialMonthlySavings).toBe(80)
+  })
+
+  it('flags Copilot for non-coding use case', () => {
+    const form: AuditFormData = {
+      teamSize: 3,
+      useCase: 'writing',
+      tools: [
+        { toolId: 'github_copilot', plan: 'business', monthlySpend: 57, seats: 3, enabled: true },
+      ],
+    }
+    const result = runAudit(form)
+    const r = result.toolResults.find((r) => r.toolId === 'github_copilot')!
+    expect(r.recommendationType).toBe('switch_tool')
+  })
+})
+
+// ─── Test 8: ChatGPT Team downgrade for small team ────────────────────────────
+describe('ChatGPT audit', () => {
+  it('recommends downgrade from Team to Plus for <=2 users', () => {
+    const form = makeForm([
+      { toolId: 'chatgpt', plan: 'team', monthlySpend: 60, seats: 2 },
+    ])
+    const result = runAudit(form)
+    const r = result.toolResults.find((r) => r.toolId === 'chatgpt')!
+
+    expect(r.recommendationType).toBe('downgrade_plan')
+    // Team=$30, Plus=$20, 2 seats = $20 savings
+    expect(r.potentialMonthlySavings).toBe(20)
+  })
+})
+
+// ─── Test 9: Gemini for coding — wrong tool ───────────────────────────────────
+describe('Gemini audit', () => {
+  it('flags Gemini Advanced for coding use case — suggests Copilot', () => {
+    const form: AuditFormData = {
+      teamSize: 2,
+      useCase: 'coding',
+      tools: [
+        { toolId: 'gemini', plan: 'advanced', monthlySpend: 40, seats: 2, enabled: true },
+      ],
+    }
+    const result = runAudit(form)
+    const r = result.toolResults.find((r) => r.toolId === 'gemini')!
+    expect(r.recommendationType).toBe('switch_tool')
+    expect(r.alternativeTool).toBe('GitHub Copilot')
+  })
+})
+
+// ─── Test 10: Claude + ChatGPT overlap for non-mixed use case ─────────────────
+describe('Claude + ChatGPT overlap', () => {
+  it('flags ChatGPT as redundant when Claude is also active for research', () => {
+    const form: AuditFormData = {
+      teamSize: 3,
+      useCase: 'research',
+      tools: [
+        { toolId: 'claude', plan: 'pro', monthlySpend: 60, seats: 3, enabled: true },
+        { toolId: 'chatgpt', plan: 'plus', monthlySpend: 60, seats: 3, enabled: true },
+      ],
+    }
+    const result = runAudit(form)
+    const chatgptResult = result.toolResults.find((r) => r.toolId === 'chatgpt')!
+    expect(chatgptResult.potentialMonthlySavings).toBeGreaterThan(0)
+  })
+})
+
+// ─── Test 11: Disabled tools are excluded from audit ─────────────────────────
+describe('Disabled tools', () => {
+  it('does not include disabled tools in audit results', () => {
+    const form: AuditFormData = {
+      teamSize: 2,
+      useCase: 'coding',
+      tools: [
+        { toolId: 'cursor', plan: 'pro', monthlySpend: 40, seats: 2, enabled: true },
+        { toolId: 'claude', plan: 'pro', monthlySpend: 40, seats: 2, enabled: false },
+      ],
+    }
+    const result = runAudit(form)
+    expect(result.toolResults).toHaveLength(1)
+    expect(result.toolResults[0].toolId).toBe('cursor')
+  })
+})
+
+// ─── Test 12: Zero spend edge case ───────────────────────────────────────────
+describe('Edge cases', () => {
+  it('handles zero monthly spend without crashing', () => {
+    const form = makeForm([
+      { toolId: 'cursor', plan: 'pro', monthlySpend: 0, seats: 1 },
+    ])
+    expect(() => runAudit(form)).not.toThrow()
+    const result = runAudit(form)
+    expect(result.totalCurrentMonthlySpend).toBe(0)
+  })
+})

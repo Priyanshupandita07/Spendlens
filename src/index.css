@@ -57,3 +57,7 @@ h1,h2,h3,h4,h5 { font-family: 'Syne', sans-serif; }
 .stagger-5 { animation-delay: 0.45s; opacity: 0; }
 
 select option { background: #111; color: #efefef; }
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
