@@ -58,4 +58,22 @@ Set up Supabase tables, add env vars to Vercel, wire up shareable URLs end-to-en
 
 ---
 
-<!-- Day 4-7 entries will be added each day -->
+## Day 4 — 2025-05-23
+
+**Hours worked:** 5
+
+**What I did:**
+Built all Open Graph and Twitter card meta tags in index.html for clean social link previews. Created an OG image in SVG format (1200x630) with the SpendLens branding, headline, and stats — this is what appears when someone shares an audit link on X or LinkedIn. Created a favicon SVG. Wrote all four entrepreneurial docs: GTM.md (specific target user, exact channels, 30-day plan for first 100 users), ECONOMICS.md (unit economics, CAC per channel, conversion funnel math, path to 1M ARR), LANDING_COPY.md (headline, subheadline, CTA, mocked social proof, 5 FAQs), and METRICS.md (North Star metric, 3 input metrics, instrumentation plan, pivot triggers). These docs are 25 points of the rubric and most candidates underinvest here.
+
+**What I learned:**
+Writing the ECONOMICS.md forced me to think carefully about the actual business model. The key insight: SpendLens is a lead-qualification tool, not just a lead-generation tool. It identifies which companies have the most savings opportunity before Credex even talks to them. A company with 500/mo in identified savings is a much warmer lead than a cold outbound prospect. The funnel math makes this very clear.
+
+**Blockers / what I am stuck on:**
+User interviews need to be done this week. Have scheduled one at my internship for tomorrow. Need two more by Day 6.
+
+**Plan for tomorrow:**
+Day 5 — wire up real Supabase backend (run SQL schema, add real env vars to Vercel), set up Resend transactional email, add ANTHROPIC_API_KEY to Vercel for live AI summaries, and start REFLECTION.md.
+
+---
+
+<!-- Day 5-7 entries will be added each day -->
