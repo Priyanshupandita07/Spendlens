@@ -1,34 +1,4 @@
-/**
- * Vercel Serverless Function: /api/summary
- * Calls Anthropic API server-side so the key is never exposed to the browser.
- * Returns { summary: string } or { summary: null, fallback: true } on failure.
- */
-
-import Anthropic from '@anthropic-ai/sdk'
-
-interface ToolResult {
-  toolLabel: string
-  currentPlan: string
-  currentMonthlySpend: number
-  recommendationType: string
-  recommendedAction: string
-  potentialMonthlySavings: number
-}
-
-interface SummaryRequest {
-  toolResults: ToolResult[]
-  totalCurrentMonthlySpend: number
-  totalPotentialMonthlySavings: number
-  totalPotentialAnnualSavings: number
-  useCase: string
-  teamSize: number
-  savingsCategory: string
-}
-
-export default async function handler(
-  req: { method: string; body: SummaryRequest },
-  res: { status: (code: number) => { json: (data: object) => void } }
-) {
+export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' })
   }
@@ -38,9 +8,8 @@ export default async function handler(
     return res.status(200).json({ summary: null, fallback: true })
   }
 
-  const data: SummaryRequest = req.body
-
-  const toolSummary = data.toolResults
+  const data = req.body
+  const toolSummary = (data.toolResults || [])
     .map((t) =>
       t.potentialMonthlySavings > 0
         ? `${t.toolLabel} (${t.currentPlan}, $${t.currentMonthlySpend}/mo): ${t.recommendedAction} — saves $${t.potentialMonthlySavings}/mo`
@@ -58,14 +27,21 @@ Tools:
 ${toolSummary}`
 
   try {
-    const client = new Anthropic({ apiKey })
-    const message = await client.messages.create({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 200,
-      messages: [{ role: 'user', content: prompt }],
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 200,
+        messages: [{ role: 'user', content: prompt }],
+      }),
     })
-    const summary =
-      message.content[0].type === 'text' ? message.content[0].text : null
+    const json = await response.json()
+    const summary = json.content?.[0]?.text || null
     return res.status(200).json({ summary, fallback: false })
   } catch (err) {
     console.error('Anthropic API error:', err)
