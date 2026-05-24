@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import type { AuditFormData, AuditSummary, LeadData, ToolAuditResult } from '@/types'
 import { useAISummary } from '@/hooks/useAISummary'
-import { saveLead, getAudit } from '@/lib/supabase'
+
 
 function fmt(n: number) {
   return n.toLocaleString('en-US', { maximumFractionDigits: 0 })
@@ -131,7 +131,11 @@ function LeadCaptureForm({
       totalMonthlySavings: monthlySavings,
     }
 
-    await saveLead(lead).catch(() => {})
+    await fetch('/api/leads', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...lead, honeypot }),
+    }).catch(() => {})
     setSubmitted(true)
     setLoading(false)
   }
@@ -314,7 +318,7 @@ export default function ResultsPage() {
       setLoading(false)
       return
     }
-    getAudit(id).then((data) => {
+    fetch('/api/audit/' + id).then(r => r.ok ? r.json() : null).then((data) => {
       if (data) {
         setFormData(data.audit_data as AuditFormData)
         setSummary(data.audit_summary as AuditSummary)

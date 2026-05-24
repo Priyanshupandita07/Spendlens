@@ -76,4 +76,22 @@ Day 5 — wire up real Supabase backend (run SQL schema, add real env vars to Ve
 
 ---
 
-<!-- Day 5-7 entries will be added each day -->
+## Day 5 — 2025-05-24
+
+**Hours worked:** 6
+
+**What I did:**
+Built the full backend layer. Created api/leads.ts — Vercel serverless function that saves leads to Supabase using the service key and sends a transactional confirmation email via Resend. Includes IP-based rate limiting (max 5 requests/hour per IP) and honeypot bot detection. Created api/audit.ts — serverless function that serves public audit data with PII stripped (no email, company name, or role in the public response). Updated ResultsPage to call /api/leads instead of Supabase directly — cleaner, more secure, and gives a single place for rate limiting and email sending. Created supabase-schema.sql with full table definitions, RLS policies, and indexes — ready to paste into the Supabase SQL editor. Wrote REFLECTION.md — all 5 questions at 150-400 words each. Did first user interview at internship (notes in USER_INTERVIEWS.md — will complete Day 6).
+
+**What I learned:**
+Supabase anon key vs service key distinction matters. The anon key respects RLS policies — fine for client-side reads. The service key bypasses RLS — needed for server-side writes where you want to trust the server, not the user. Using the service key only in serverless functions (never in client code) is the correct pattern. Also: Resend requires a verified sending domain for production emails. For the MVP I am using their sandbox domain which delivers to verified addresses only — good enough for demo, needs a real domain before launch.
+
+**Blockers / what I am stuck on:**
+Need to add SUPABASE_SERVICE_KEY and RESEND_API_KEY to Vercel environment variables. Also need to run supabase-schema.sql in the Supabase dashboard. Documenting these as setup steps in README.md. Second and third user interviews need to happen tomorrow.
+
+**Plan for tomorrow:**
+Day 6 — UI polish (fix mobile layout, Lighthouse scores), complete USER_INTERVIEWS.md with all 3 interviews, take screenshots for README, attempt PDF export bonus feature if time allows.
+
+---
+
+<!-- Day 6-7 entries will be added each day -->
