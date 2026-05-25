@@ -9,48 +9,29 @@ import { TOOL_LABELS, TOOL_ICONS, TOOL_PLANS, USE_CASE_LABELS } from '@/types'
 import { getPlanPrice } from '@/lib/pricing'
 
 const ALL_TOOLS: ToolId[] = [
-  'cursor',
-  'github_copilot',
-  'claude',
-  'chatgpt',
-  'anthropic_api',
-  'openai_api',
-  'gemini',
-  'windsurf',
+  'cursor', 'github_copilot', 'claude', 'chatgpt',
+  'anthropic_api', 'openai_api', 'gemini', 'windsurf',
 ]
 
 const TOOL_COLORS: Record<ToolId, string> = {
-  cursor: '#7c5cfc',
-  github_copilot: '#3b82f6',
-  claude: '#d97706',
-  chatgpt: '#10b981',
-  anthropic_api: '#f59e0b',
-  openai_api: '#6366f1',
-  gemini: '#ec4899',
-  windsurf: '#06b6d4',
+  cursor: '#7c5cfc', github_copilot: '#3b82f6', claude: '#d97706',
+  chatgpt: '#10b981', anthropic_api: '#f59e0b', openai_api: '#6366f1',
+  gemini: '#ec4899', windsurf: '#06b6d4',
 }
 
 const TOOL_DESCRIPTIONS: Record<ToolId, string> = {
-  cursor: 'AI-native code editor',
-  github_copilot: 'IDE code completion',
-  claude: 'Reasoning & writing',
-  chatgpt: 'General AI assistant',
-  anthropic_api: 'Direct API access',
-  openai_api: 'Direct API access',
-  gemini: "Google's AI assistant",
-  windsurf: 'AI-native code editor',
+  cursor: 'AI-native code editor', github_copilot: 'IDE code completion',
+  claude: 'Reasoning & writing', chatgpt: 'General AI assistant',
+  anthropic_api: 'Direct API access', openai_api: 'Direct API access',
+  gemini: "Google's AI assistant", windsurf: 'AI-native code editor',
 }
 
 const DEFAULT_FORM: AuditFormData = {
   tools: ALL_TOOLS.map((toolId) => ({
-    toolId,
-    plan: TOOL_PLANS[toolId][0].id,
-    monthlySpend: 0,
-    seats: 1,
-    enabled: false,
+    toolId, plan: TOOL_PLANS[toolId][0].id,
+    monthlySpend: 0, seats: 1, enabled: false,
   })),
-  teamSize: 1,
-  useCase: 'coding',
+  teamSize: 1, useCase: 'coding',
 }
 
 function fmt(n: number) {
@@ -68,192 +49,158 @@ function ToolCard({ tool, onToggle, onUpdate }: ToolCardProps) {
   const color = TOOL_COLORS[tool.toolId]
   const isAPI = tool.toolId === 'anthropic_api' || tool.toolId === 'openai_api'
 
-  // Auto-calculate spend when plan or seats change
   function handlePlanChange(planId: string) {
     const price = getPlanPrice(tool.toolId, planId)
-    const autoSpend = price > 0 ? price * tool.seats : tool.monthlySpend
-    onUpdate({ plan: planId, monthlySpend: autoSpend })
+    onUpdate({ plan: planId, monthlySpend: price > 0 ? price * tool.seats : tool.monthlySpend })
   }
 
   function handleSeatsChange(seats: number) {
     const price = getPlanPrice(tool.toolId, tool.plan)
-    const autoSpend = price > 0 ? price * seats : tool.monthlySpend
-    onUpdate({ seats, monthlySpend: autoSpend })
+    onUpdate({ seats, monthlySpend: price > 0 ? price * seats : tool.monthlySpend })
   }
 
   return (
-    <div
-      className="rounded-xl border transition-all duration-200"
-      style={{
-        borderColor: tool.enabled ? color + '60' : 'var(--border)',
-        background: tool.enabled ? color + '08' : 'var(--bg-card)',
-      }}
-    >
-      {/* Header row */}
-      <div className="flex items-center gap-3 p-4 cursor-pointer" onClick={onToggle}>
+    <div style={{
+      borderRadius: '12px',
+      border: `1px solid ${tool.enabled ? color + '50' : 'var(--border)'}`,
+      background: tool.enabled ? color + '08' : 'var(--bg-card)',
+      transition: 'all 0.2s',
+      overflow: 'hidden',
+    }}>
+      {/* Header */}
+      <div
+        onClick={onToggle}
+        style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '14px 16px', cursor: 'pointer' }}
+      >
         {/* Checkbox */}
-        <div
-          className="flex-shrink-0 w-5 h-5 rounded border-2 flex items-center justify-center transition-all"
-          style={{
-            borderColor: tool.enabled ? color : 'var(--border-hover)',
-            background: tool.enabled ? color : 'transparent',
-          }}
-        >
+        <div style={{
+          width: '18px', height: '18px', borderRadius: '5px', flexShrink: 0,
+          border: `2px solid ${tool.enabled ? color : 'var(--border-hover)'}`,
+          background: tool.enabled ? color : 'transparent',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          transition: 'all 0.15s',
+        }}>
           {tool.enabled && (
-            <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="#000" strokeWidth={3}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="20 6 9 17 4 12" />
             </svg>
           )}
         </div>
 
         {/* Icon */}
-        <div
-          className="flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold"
-          style={{ background: color + '20', color }}
-        >
+        <div style={{
+          width: '32px', height: '32px', borderRadius: '8px', flexShrink: 0,
+          background: color + '20', color, display: 'flex',
+          alignItems: 'center', justifyContent: 'center', fontSize: '14px', fontWeight: 700,
+        }}>
           {TOOL_ICONS[tool.toolId]}
         </div>
 
         {/* Label */}
-        <div className="flex-1 min-w-0">
-          <div
-            className="font-semibold text-sm"
-            style={{
-              fontFamily: 'Syne, sans-serif',
-              color: tool.enabled ? 'var(--text-primary)' : 'var(--text-secondary)',
-            }}
-          >
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{
+            fontFamily: 'Syne, sans-serif', fontWeight: 600, fontSize: '14px',
+            color: tool.enabled ? 'var(--text-primary)' : 'var(--text-secondary)',
+          }}>
             {TOOL_LABELS[tool.toolId]}
           </div>
-          <div className="text-xs" style={{ color: 'var(--text-muted)' }}>
+          <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '1px' }}>
             {TOOL_DESCRIPTIONS[tool.toolId]}
           </div>
         </div>
 
-        {/* Monthly spend preview */}
-        {tool.enabled && tool.monthlySpend > 0 && (
-          <div className="text-right flex-shrink-0">
-            <div className="text-sm font-semibold mono" style={{ color }}>
-              ${fmt(tool.monthlySpend)}/mo
-            </div>
+        {/* Right side */}
+        {tool.enabled && tool.monthlySpend > 0 ? (
+          <div style={{ fontFamily: 'DM Mono, monospace', fontSize: '13px', fontWeight: 600, color, flexShrink: 0 }}>
+            ${fmt(tool.monthlySpend)}/mo
           </div>
-        )}
-
-        {!tool.enabled && (
-          <span className="text-xs font-mono flex-shrink-0" style={{ color: 'var(--text-muted)' }}>
-            not using
-          </span>
+        ) : (
+          !tool.enabled && (
+            <div style={{ fontSize: '11px', fontFamily: 'DM Mono, monospace', color: 'var(--text-muted)', flexShrink: 0 }}>
+              not using
+            </div>
+          )
         )}
       </div>
 
       {/* Expanded inputs */}
       {tool.enabled && (
-        <div
-          className="px-4 pb-4 pt-1 border-t"
-          style={{ borderColor: color + '20' }}
-        >
-          <div className="grid grid-cols-3 gap-3 mt-3">
+        <div style={{
+          padding: '0 16px 16px',
+          borderTop: `1px solid ${color}20`,
+          paddingTop: '14px',
+        }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isAPI ? '1fr 1fr' : '1fr 80px 100px', gap: '10px' }}>
             {/* Plan */}
             <div>
-              <label className="text-xs mb-1.5 block font-medium" style={{ color: 'var(--text-secondary)' }}>
+              <label style={{ fontSize: '11px', color: 'var(--text-secondary)', display: 'block', marginBottom: '6px', fontWeight: 500 }}>
                 Plan
               </label>
               <select
                 value={tool.plan}
-                onChange={(e) => handlePlanChange(e.target.value)}
-                className="w-full px-2.5 py-2 rounded-lg text-xs outline-none transition-all"
+                onChange={e => handlePlanChange(e.target.value)}
+                onClick={e => e.stopPropagation()}
                 style={{
-                  background: 'var(--bg)',
-                  border: '1px solid var(--border-hover)',
+                  width: '100%', padding: '8px 10px', borderRadius: '8px',
+                  fontSize: '12px', outline: 'none', cursor: 'pointer',
+                  background: 'var(--bg)', border: '1px solid var(--border-hover)',
                   color: 'var(--text-primary)',
                 }}
-                onFocus={(e) => (e.target.style.borderColor = color)}
-                onBlur={(e) => (e.target.style.borderColor = 'var(--border-hover)')}
               >
-                {plans.map((p) => (
-                  <option key={p.id} value={p.id}>{p.label}</option>
-                ))}
+                {plans.map(p => <option key={p.id} value={p.id}>{p.label}</option>)}
               </select>
             </div>
 
-            {/* Seats — hide for API tools */}
-            {!isAPI ? (
+            {/* Seats */}
+            {!isAPI && (
               <div>
-                <label className="text-xs mb-1.5 block font-medium" style={{ color: 'var(--text-secondary)' }}>
+                <label style={{ fontSize: '11px', color: 'var(--text-secondary)', display: 'block', marginBottom: '6px', fontWeight: 500 }}>
                   Seats
                 </label>
                 <input
-                  type="number"
-                  min={1}
-                  max={10000}
+                  type="number" min={1} max={10000}
                   value={tool.seats}
-                  onChange={(e) => handleSeatsChange(Math.max(1, parseInt(e.target.value) || 1))}
-                  className="w-full px-2.5 py-2 rounded-lg text-xs outline-none"
+                  onChange={e => handleSeatsChange(Math.max(1, parseInt(e.target.value) || 1))}
+                  onClick={e => e.stopPropagation()}
                   style={{
-                    background: 'var(--bg)',
-                    border: '1px solid var(--border-hover)',
+                    width: '100%', padding: '8px 10px', borderRadius: '8px',
+                    fontSize: '12px', outline: 'none',
+                    background: 'var(--bg)', border: '1px solid var(--border-hover)',
                     color: 'var(--text-primary)',
                   }}
-                  onFocus={(e) => (e.target.style.borderColor = color)}
-                  onBlur={(e) => (e.target.style.borderColor = 'var(--border-hover)')}
                 />
               </div>
-            ) : (
-              <div />
             )}
 
             {/* Monthly spend */}
             <div>
-              <label className="text-xs mb-1.5 block font-medium" style={{ color: 'var(--text-secondary)' }}>
-                {isAPI ? 'Monthly bill ($)' : 'Monthly spend ($)'}
+              <label style={{ fontSize: '11px', color: 'var(--text-secondary)', display: 'block', marginBottom: '6px', fontWeight: 500 }}>
+                {isAPI ? 'Monthly bill ($)' : 'Monthly ($)'}
               </label>
-              <div className="relative">
-                <span
-                  className="absolute left-2.5 top-1/2 -translate-y-1/2 text-xs"
-                  style={{ color: 'var(--text-muted)' }}
-                >
-                  $
-                </span>
+              <div style={{ position: 'relative' }}>
+                <span style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', fontSize: '11px', color: 'var(--text-muted)' }}>$</span>
                 <input
-                  type="number"
-                  min={0}
-                  step={1}
+                  type="number" min={0} step={1}
                   value={tool.monthlySpend || ''}
-                  onChange={(e) => onUpdate({ monthlySpend: Math.max(0, parseFloat(e.target.value) || 0) })}
-                  className="w-full pl-6 pr-2 py-2 rounded-lg text-xs outline-none"
+                  onChange={e => onUpdate({ monthlySpend: Math.max(0, parseFloat(e.target.value) || 0) })}
+                  onClick={e => e.stopPropagation()}
+                  placeholder="0"
                   style={{
-                    background: 'var(--bg)',
-                    border: '1px solid var(--border-hover)',
+                    width: '100%', paddingLeft: '22px', paddingRight: '8px',
+                    paddingTop: '8px', paddingBottom: '8px',
+                    borderRadius: '8px', fontSize: '12px', outline: 'none',
+                    background: 'var(--bg)', border: '1px solid var(--border-hover)',
                     color: 'var(--text-primary)',
                   }}
-                  onFocus={(e) => (e.target.style.borderColor = color)}
-                  onBlur={(e) => (e.target.style.borderColor = 'var(--border-hover)')}
-                  placeholder="0"
                 />
               </div>
-              {isAPI && (
-                <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
-                  Check your last invoice
-                </p>
-              )}
             </div>
           </div>
 
-          {/* Plan note for min seats */}
+          {/* Warnings */}
           {tool.toolId === 'claude' && tool.plan === 'team' && tool.seats < 5 && (
-            <div
-              className="mt-2 text-xs px-3 py-1.5 rounded-lg"
-              style={{ background: 'rgba(255,77,77,0.08)', color: '#ff4d4d' }}
-            >
-              ⚠ Claude Team requires a minimum of 5 seats
-            </div>
-          )}
-          {tool.toolId === 'chatgpt' && tool.plan === 'team' && tool.seats < 2 && (
-            <div
-              className="mt-2 text-xs px-3 py-1.5 rounded-lg"
-              style={{ background: 'rgba(255,77,77,0.08)', color: '#ff4d4d' }}
-            >
-              ⚠ ChatGPT Team requires a minimum of 2 seats
+            <div style={{ marginTop: '8px', fontSize: '11px', padding: '6px 10px', borderRadius: '6px', background: 'rgba(255,77,77,0.08)', color: '#ff4d4d' }}>
+              ⚠ Claude Team requires minimum 5 seats
             </div>
           )}
         </div>
@@ -269,31 +216,26 @@ export default function AuditPage() {
   const [error, setError] = useState('')
   const [totalSpend, setTotalSpend] = useState(0)
 
-  const enabledTools = formData.tools.filter((t) => t.enabled)
+  const enabledTools = formData.tools.filter(t => t.enabled)
   const enabledCount = enabledTools.length
 
-  // Live total spend counter
   useEffect(() => {
-    const total = enabledTools.reduce((sum, t) => sum + (t.monthlySpend || 0), 0)
-    setTotalSpend(total)
+    setTotalSpend(enabledTools.reduce((sum, t) => sum + (t.monthlySpend || 0), 0))
   }, [formData])
 
   function updateTool(toolId: ToolId, updates: Partial<ToolEntry>) {
-    setFormData((prev) => ({
+    setFormData(prev => ({
       ...prev,
-      tools: prev.tools.map((t) => (t.toolId === toolId ? { ...t, ...updates } : t)),
+      tools: prev.tools.map(t => t.toolId === toolId ? { ...t, ...updates } : t),
     }))
   }
 
   function toggleTool(toolId: ToolId) {
-    const tool = formData.tools.find((t) => t.toolId === toolId)
-    if (!tool) return
-    setFormData((prev) => ({
+    setFormData(prev => ({
       ...prev,
-      tools: prev.tools.map((t) => {
+      tools: prev.tools.map(t => {
         if (t.toolId !== toolId) return t
         const enabling = !t.enabled
-        // Auto-set spend from plan price when enabling
         if (enabling && t.monthlySpend === 0) {
           const price = getPlanPrice(toolId, t.plan)
           return { ...t, enabled: true, monthlySpend: price > 0 ? price * t.seats : 0 }
@@ -304,13 +246,9 @@ export default function AuditPage() {
   }
 
   async function handleSubmit() {
-    if (enabledCount === 0) {
-      setError('Please enable at least one AI tool.')
-      return
-    }
+    if (enabledCount === 0) { setError('Please enable at least one AI tool.'); return }
     setError('')
     setLoading(true)
-
     try {
       const summary = runAudit(formData)
       const id = nanoid(10)
@@ -325,125 +263,100 @@ export default function AuditPage() {
     }
   }
 
-  function resetForm() {
-    if (confirm('Reset all form data?')) setFormData(DEFAULT_FORM)
-  }
-
   return (
-    <div className="min-h-screen pt-20 pb-24" style={{ background: 'var(--bg)' }}>
-      {/* Subtle grid */}
-      <div
-        className="fixed inset-0 pointer-events-none"
-        style={{
-          backgroundImage: 'linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)',
-          backgroundSize: '40px 40px',
-          opacity: 0.3,
-        }}
-      />
+    <div style={{ minHeight: '100vh', background: 'var(--bg)' }}>
+      <div style={{
+        position: 'fixed', inset: 0, pointerEvents: 'none',
+        backgroundImage: 'linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)',
+        backgroundSize: '40px 40px', opacity: 0.3,
+      }} />
 
-      <div className="relative max-w-2xl mx-auto px-4">
+      <div style={{ position: 'relative', maxWidth: '640px', margin: '0 auto', padding: '100px 24px 80px' }}>
+
         {/* Header */}
-        <div className="pt-8 mb-8">
-          <div className="flex items-center gap-2 mb-3">
-            <a href="/" className="text-xs font-mono transition-colors" style={{ color: 'var(--text-muted)' }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--accent)')}
-              onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}
-            >
-              ← Home
-            </a>
-            <span style={{ color: 'var(--text-muted)' }}>/</span>
-            <span className="text-xs font-mono" style={{ color: 'var(--accent)' }}>Audit</span>
+        <div style={{ marginBottom: '32px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+            <a href="/" style={{ fontSize: '12px', fontFamily: 'DM Mono, monospace', color: 'var(--text-muted)', textDecoration: 'none' }}
+              onMouseEnter={e => (e.currentTarget.style.color = 'var(--accent)')}
+              onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-muted)')}
+            >← Home</a>
+            <span style={{ color: 'var(--text-muted)', fontSize: '12px' }}>/</span>
+            <span style={{ fontSize: '12px', fontFamily: 'DM Mono, monospace', color: 'var(--accent)' }}>Audit</span>
           </div>
-          <h1
-            className="text-3xl font-extrabold mb-2"
-            style={{ fontFamily: 'Syne, sans-serif', color: 'var(--text-primary)' }}
-          >
+          <h1 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: '2rem', color: 'var(--text-primary)', marginBottom: '8px' }}>
             Your AI stack
           </h1>
-          <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+          <p style={{ fontSize: '14px', color: 'var(--text-secondary)' }}>
             Toggle every tool you pay for. We'll find where you're overspending.
           </p>
         </div>
 
         {/* Live spend counter */}
         {totalSpend > 0 && (
-          <div
-            className="rounded-xl border p-4 mb-6 flex items-center justify-between"
-            style={{ borderColor: 'var(--accent)', background: 'var(--accent-dim)' }}
-          >
+          <div style={{
+            borderRadius: '12px', border: '1px solid var(--accent)',
+            background: 'var(--accent-dim)', padding: '16px 20px',
+            marginBottom: '20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          }}>
             <div>
-              <div className="text-xs font-mono mb-0.5" style={{ color: 'var(--accent)' }}>
+              <div style={{ fontSize: '10px', fontFamily: 'DM Mono, monospace', color: 'var(--accent)', marginBottom: '4px', letterSpacing: '0.08em' }}>
                 CURRENT MONTHLY SPEND
               </div>
-              <div
-                className="text-2xl font-extrabold mono"
-                style={{ fontFamily: 'Syne, sans-serif', color: 'var(--text-primary)' }}
-              >
-                ${fmt(totalSpend)}<span className="text-sm font-normal text-[var(--text-secondary)]">/mo</span>
+              <div style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: '1.8rem', color: 'var(--text-primary)' }}>
+                ${fmt(totalSpend)}<span style={{ fontSize: '14px', fontWeight: 400, color: 'var(--text-secondary)' }}>/mo</span>
               </div>
             </div>
-            <div className="text-right">
-              <div className="text-xs" style={{ color: 'var(--text-secondary)' }}>
-                ${fmt(totalSpend * 12)}/year
-              </div>
-              <div className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>
-                {enabledCount} tool{enabledCount !== 1 ? 's' : ''} tracked
-              </div>
+            <div style={{ textAlign: 'right' }}>
+              <div style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>${fmt(totalSpend * 12)}/year</div>
+              <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '2px' }}>{enabledCount} tool{enabledCount !== 1 ? 's' : ''} tracked</div>
             </div>
           </div>
         )}
 
         {/* Team context */}
-        <div
-          className="rounded-xl border p-5 mb-5"
-          style={{ borderColor: 'var(--border)', background: 'var(--bg-card)' }}
-        >
-          <h2
-            className="text-sm font-bold mb-4"
-            style={{ fontFamily: 'Syne, sans-serif', color: 'var(--text-primary)' }}
-          >
+        <div style={{
+          borderRadius: '12px', border: '1px solid var(--border)',
+          background: 'var(--bg-card)', padding: '20px', marginBottom: '20px',
+        }}>
+          <h2 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: '14px', color: 'var(--text-primary)', marginBottom: '16px' }}>
             Team context
           </h2>
-          <div className="grid grid-cols-2 gap-4">
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
             <div>
-              <label className="text-xs mb-1.5 block font-medium" style={{ color: 'var(--text-secondary)' }}>
+              <label style={{ fontSize: '11px', color: 'var(--text-secondary)', display: 'block', marginBottom: '6px', fontWeight: 500 }}>
                 Team size (people)
               </label>
               <input
-                type="number"
-                min={1}
-                max={100000}
+                type="number" min={1} max={100000}
                 value={formData.teamSize}
-                onChange={(e) =>
-                  setFormData((prev) => ({ ...prev, teamSize: Math.max(1, parseInt(e.target.value) || 1) }))
-                }
-                className="w-full px-3 py-2.5 rounded-lg text-sm outline-none"
+                onChange={e => setFormData(prev => ({ ...prev, teamSize: Math.max(1, parseInt(e.target.value) || 1) }))}
                 style={{
-                  background: 'var(--bg)',
-                  border: '1px solid var(--border-hover)',
+                  width: '100%', padding: '9px 12px', borderRadius: '8px',
+                  fontSize: '13px', outline: 'none',
+                  background: 'var(--bg)', border: '1px solid var(--border-hover)',
                   color: 'var(--text-primary)',
                 }}
-                onFocus={(e) => (e.target.style.borderColor = 'var(--accent)')}
-                onBlur={(e) => (e.target.style.borderColor = 'var(--border-hover)')}
+                onFocus={e => (e.target.style.borderColor = 'var(--accent)')}
+                onBlur={e => (e.target.style.borderColor = 'var(--border-hover)')}
               />
             </div>
             <div>
-              <label className="text-xs mb-1.5 block font-medium" style={{ color: 'var(--text-secondary)' }}>
+              <label style={{ fontSize: '11px', color: 'var(--text-secondary)', display: 'block', marginBottom: '6px', fontWeight: 500 }}>
                 Primary use case
               </label>
               <select
                 value={formData.useCase}
-                onChange={(e) => setFormData((prev) => ({ ...prev, useCase: e.target.value as UseCase }))}
-                className="w-full px-3 py-2.5 rounded-lg text-sm outline-none"
+                onChange={e => setFormData(prev => ({ ...prev, useCase: e.target.value as UseCase }))}
                 style={{
-                  background: 'var(--bg)',
-                  border: '1px solid var(--border-hover)',
+                  width: '100%', padding: '9px 12px', borderRadius: '8px',
+                  fontSize: '13px', outline: 'none', cursor: 'pointer',
+                  background: 'var(--bg)', border: '1px solid var(--border-hover)',
                   color: 'var(--text-primary)',
                 }}
-                onFocus={(e) => (e.target.style.borderColor = 'var(--accent)')}
-                onBlur={(e) => (e.target.style.borderColor = 'var(--border-hover)')}
+                onFocus={e => (e.target.style.borderColor = 'var(--accent)')}
+                onBlur={e => (e.target.style.borderColor = 'var(--border-hover)')}
               >
-                {(Object.keys(USE_CASE_LABELS) as UseCase[]).map((uc) => (
+                {(Object.keys(USE_CASE_LABELS) as UseCase[]).map(uc => (
                   <option key={uc} value={uc}>{USE_CASE_LABELS[uc]}</option>
                 ))}
               </select>
@@ -452,73 +365,61 @@ export default function AuditPage() {
         </div>
 
         {/* Tool cards */}
-        <div className="space-y-2.5 mb-6">
-          <h2
-            className="text-sm font-bold mb-3"
-            style={{ fontFamily: 'Syne, sans-serif', color: 'var(--text-primary)' }}
-          >
+        <div style={{ marginBottom: '24px' }}>
+          <h2 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: '14px', color: 'var(--text-primary)', marginBottom: '12px' }}>
             AI tools{' '}
-            <span className="font-normal" style={{ color: 'var(--text-muted)' }}>
-              — toggle every one you pay for
-            </span>
+            <span style={{ fontWeight: 400, color: 'var(--text-muted)' }}>— toggle every one you pay for</span>
           </h2>
-          {formData.tools.map((tool) => (
-            <ToolCard
-              key={tool.toolId}
-              tool={tool}
-              onToggle={() => toggleTool(tool.toolId)}
-              onUpdate={(updates) => updateTool(tool.toolId, updates)}
-            />
-          ))}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            {formData.tools.map(tool => (
+              <ToolCard
+                key={tool.toolId}
+                tool={tool}
+                onToggle={() => toggleTool(tool.toolId)}
+                onUpdate={updates => updateTool(tool.toolId, updates)}
+              />
+            ))}
+          </div>
         </div>
 
-        {/* Validation error */}
-        {error && (
-          <p className="text-sm mb-4 text-center" style={{ color: 'var(--red)' }}>
-            {error}
-          </p>
-        )}
+        {/* Error */}
+        {error && <p style={{ fontSize: '13px', color: 'var(--red)', textAlign: 'center', marginBottom: '12px' }}>{error}</p>}
 
         {/* Submit */}
-        <div className="flex gap-3">
+        <div style={{ display: 'flex', gap: '10px' }}>
           <button
             onClick={handleSubmit}
             disabled={loading || enabledCount === 0}
-            className="flex-1 py-4 rounded-xl font-bold text-base transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
             style={{
+              flex: 1, padding: '14px', borderRadius: '10px',
+              fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: '15px',
+              border: 'none', cursor: enabledCount > 0 ? 'pointer' : 'not-allowed',
               background: enabledCount > 0 ? 'var(--accent)' : 'var(--bg-card)',
               color: enabledCount > 0 ? '#000' : 'var(--text-muted)',
-              border: enabledCount > 0 ? 'none' : '1px solid var(--border)',
-              fontFamily: 'Syne, sans-serif',
+              opacity: loading ? 0.7 : 1,
+              transition: 'all 0.2s',
             }}
-            onMouseEnter={(e) => {
-              if (enabledCount > 0) e.currentTarget.style.background = 'var(--accent-hover)'
-            }}
-            onMouseLeave={(e) => {
-              if (enabledCount > 0) e.currentTarget.style.background = 'var(--accent)'
-            }}
+            onMouseEnter={e => { if (enabledCount > 0) e.currentTarget.style.background = 'var(--accent-hover)' }}
+            onMouseLeave={e => { if (enabledCount > 0) e.currentTarget.style.background = 'var(--accent)' }}
           >
             {loading
-              ? 'Analysing your stack…'
+              ? 'Analysing…'
               : enabledCount === 0
                 ? 'Toggle at least one tool to continue'
                 : `Run audit — ${enabledCount} tool${enabledCount > 1 ? 's' : ''} · $${fmt(totalSpend)}/mo →`}
           </button>
           <button
-            onClick={resetForm}
-            className="px-4 py-4 rounded-xl text-sm transition-colors"
+            onClick={() => { if (confirm('Reset all form data?')) setFormData(DEFAULT_FORM) }}
+            title="Reset"
             style={{
-              background: 'var(--bg-card)',
-              border: '1px solid var(--border)',
-              color: 'var(--text-secondary)',
+              padding: '14px 16px', borderRadius: '10px', fontSize: '16px',
+              background: 'var(--bg-card)', border: '1px solid var(--border)',
+              color: 'var(--text-secondary)', cursor: 'pointer',
             }}
-            title="Reset all form data"
-          >
-            ↺
-          </button>
+          >↺</button>
         </div>
 
-        <p className="text-xs text-center mt-4" style={{ color: 'var(--text-muted)' }}>
+        <p style={{ fontSize: '11px', textAlign: 'center', marginTop: '12px', color: 'var(--text-muted)' }}>
           Your inputs are saved automatically — come back anytime and they'll still be here.
         </p>
       </div>
