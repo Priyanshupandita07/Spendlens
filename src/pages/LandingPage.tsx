@@ -9,293 +9,168 @@ const tools = [
   { name: 'Windsurf', icon: '◀', color: '#06b6d4' },
 ]
 
+const steps = [
+  { step: '01', title: 'Enter your stack', desc: 'Select which AI tools you pay for, what plan, and how many seats.' },
+  { step: '02', title: 'Get your audit', desc: "Instant rule-based analysis — where you're overspending, what to switch, total savings." },
+  { step: '03', title: 'Share or act', desc: 'Share a unique link with your team. Book a call if you want help acting on it.' },
+]
+
+const stats = [
+  { num: '$2,400', label: 'avg. annual savings found' },
+  { num: '< 2 min', label: 'to complete an audit' },
+  { num: '8 tools', label: 'audited in the engine' },
+]
+
 export default function LandingPage() {
   const navigate = useNavigate()
 
   return (
-    <div className="min-h-screen" style={{ background: 'var(--bg)' }}>
-      {/* Grid bg */}
-      <div
-        className="fixed inset-0 pointer-events-none"
-        style={{
-          backgroundImage:
-            'linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)',
-          backgroundSize: '40px 40px',
-          opacity: 0.4,
-        }}
-      />
+    <div style={{ minHeight: '100vh', background: 'var(--bg)', overflowX: 'hidden' }}>
+      {/* Grid background */}
+      <div style={{
+        position: 'fixed', inset: 0, pointerEvents: 'none',
+        backgroundImage: 'linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)',
+        backgroundSize: '40px 40px', opacity: 0.35,
+      }} />
 
       {/* Top glow */}
-      <div
-        className="fixed top-0 left-1/2 pointer-events-none"
-        style={{
-          transform: 'translateX(-50%)',
-          width: '600px',
-          height: '300px',
-          background: 'radial-gradient(ellipse at center, rgba(0,229,160,0.08) 0%, transparent 70%)',
-        }}
-      />
+      <div style={{
+        position: 'fixed', top: 0, left: '50%', transform: 'translateX(-50%)',
+        width: '700px', height: '400px', pointerEvents: 'none',
+        background: 'radial-gradient(ellipse at center top, rgba(0,229,160,0.1) 0%, transparent 65%)',
+      }} />
 
-      <div
-        className="relative mx-auto px-6 pt-32 pb-24"
-        style={{ maxWidth: '960px' }}
-      >
+      <div style={{ position: 'relative', maxWidth: '900px', margin: '0 auto', padding: '120px 24px 80px' }}>
+
         {/* Badge */}
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '2rem' }}
-          className="animate-fade-up stagger-1">
-          <span
-            className="text-xs px-3 py-1 rounded-full border font-mono"
-            style={{
-              borderColor: 'var(--accent)',
-              color: 'var(--accent)',
-              background: 'var(--accent-dim)',
-              letterSpacing: '0.05em',
-            }}
-          >
-            FREE · NO LOGIN REQUIRED · TAKES 2 MINUTES
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '28px' }}>
+          <span style={{
+            fontSize: '11px', padding: '5px 14px', borderRadius: '999px',
+            border: '1px solid var(--accent)', color: 'var(--accent)',
+            background: 'var(--accent-dim)', letterSpacing: '0.08em', fontFamily: 'DM Mono, monospace',
+          }}>
+            FREE · NO LOGIN · 2 MINUTES
           </span>
         </div>
 
         {/* Headline */}
-        <h1
-          className="animate-fade-up stagger-2"
-          style={{
-            fontFamily: 'Syne, sans-serif',
-            color: 'var(--text-primary)',
-            fontSize: 'clamp(2.5rem, 7vw, 5rem)',
-            fontWeight: 800,
-            lineHeight: 1.05,
-            letterSpacing: '-0.02em',
-            textAlign: 'center',
-            marginBottom: '1.5rem',
-          }}
-        >
-          Are you{' '}
-          <span style={{ color: 'var(--accent)' }} className="text-glow">
-            overpaying
-          </span>
-          <br />
-          for AI tools?
+        <h1 style={{
+          fontFamily: 'Syne, sans-serif', fontWeight: 800,
+          fontSize: 'clamp(2.8rem, 8vw, 5.5rem)',
+          lineHeight: 1.05, letterSpacing: '-0.02em',
+          textAlign: 'center', color: 'var(--text-primary)',
+          marginBottom: '20px',
+        }}>
+          Are you <span style={{ color: 'var(--accent)', textShadow: '0 0 40px rgba(0,229,160,0.4)' }}>overpaying</span>
+          <br />for AI tools?
         </h1>
 
         {/* Subheadline */}
-        <p
-          className="animate-fade-up stagger-3"
-          style={{
-            textAlign: 'center',
-            fontSize: '1.125rem',
-            color: 'var(--text-secondary)',
-            maxWidth: '520px',
-            margin: '0 auto 2.5rem',
-            lineHeight: 1.6,
-          }}
-        >
-          The free AI spend auditor for startups. Input your stack, get an
-          instant breakdown of where you're overspending — and exactly how much
-          you can save.
+        <p style={{
+          textAlign: 'center', fontSize: '1.1rem', lineHeight: 1.65,
+          color: 'var(--text-secondary)', maxWidth: '500px',
+          margin: '0 auto 36px',
+        }}>
+          The free AI spend auditor for startups. Input your stack, get an instant
+          breakdown of where you're overspending — and exactly how much you can save.
         </p>
 
         {/* CTA */}
-        <div
-          className="animate-fade-up stagger-4"
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: '0.75rem',
-            marginBottom: '3rem',
-          }}
-        >
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', marginBottom: '48px' }}>
           <button
             onClick={() => navigate('/audit')}
-            className="animate-pulse-glow"
             style={{
-              background: 'var(--accent)',
-              color: '#000',
-              fontFamily: 'Syne, sans-serif',
-              fontWeight: 700,
-              fontSize: '1rem',
-              padding: '1rem 2rem',
-              borderRadius: '0.75rem',
-              border: 'none',
-              cursor: 'pointer',
+              background: 'var(--accent)', color: '#000',
+              fontFamily: 'Syne, sans-serif', fontWeight: 700,
+              fontSize: '1rem', padding: '14px 32px',
+              borderRadius: '10px', border: 'none', cursor: 'pointer',
+              boxShadow: '0 0 30px rgba(0,229,160,0.25)',
               transition: 'all 0.2s',
             }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'var(--accent-hover)'
-              e.currentTarget.style.transform = 'translateY(-2px)'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'var(--accent)'
-              e.currentTarget.style.transform = 'translateY(0)'
-            }}
+            onMouseEnter={e => { e.currentTarget.style.background = 'var(--accent-hover)'; e.currentTarget.style.transform = 'translateY(-2px)' }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'var(--accent)'; e.currentTarget.style.transform = 'translateY(0)' }}
           >
             Audit my AI spend →
           </button>
-          <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+          <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
             No credit card. No email required upfront.
-          </p>
-        </div>
-
-        {/* Tool chips */}
-        <div
-          className="animate-fade-up stagger-5"
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-            gap: '0.5rem',
-            marginBottom: '5rem',
-          }}
-        >
-          {tools.map((t) => (
-            <span
-              key={t.name}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.375rem',
-                fontSize: '0.875rem',
-                padding: '0.375rem 0.75rem',
-                borderRadius: '9999px',
-                border: '1px solid var(--border-hover)',
-                color: 'var(--text-secondary)',
-                background: 'var(--bg-card)',
-              }}
-            >
-              <span style={{ color: t.color }}>{t.icon}</span>
-              {t.name}
-            </span>
-          ))}
-          <span
-            style={{
-              fontSize: '0.875rem',
-              padding: '0.375rem 0.75rem',
-              borderRadius: '9999px',
-              border: '1px solid var(--border)',
-              color: 'var(--text-muted)',
-              background: 'var(--bg-card)',
-            }}
-          >
-            + more
           </span>
         </div>
 
+        {/* Tool chips */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '8px', marginBottom: '80px' }}>
+          {tools.map(t => (
+            <span key={t.name} style={{
+              display: 'flex', alignItems: 'center', gap: '6px',
+              fontSize: '13px', padding: '6px 14px', borderRadius: '999px',
+              border: '1px solid var(--border-hover)', color: 'var(--text-secondary)',
+              background: 'var(--bg-card)',
+            }}>
+              <span style={{ color: t.color }}>{t.icon}</span>{t.name}
+            </span>
+          ))}
+          <span style={{
+            fontSize: '13px', padding: '6px 14px', borderRadius: '999px',
+            border: '1px solid var(--border)', color: 'var(--text-muted)', background: 'var(--bg-card)',
+          }}>+ more</span>
+        </div>
+
         {/* How it works */}
-        <div id="how-it-works" style={{ marginBottom: '5rem' }}>
-          <h2
-            style={{
-              fontFamily: 'Syne, sans-serif',
-              color: 'var(--text-primary)',
-              fontSize: '1.5rem',
-              fontWeight: 700,
-              textAlign: 'center',
-              marginBottom: '2.5rem',
-            }}
-          >
-            How it works
-          </h2>
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-              gap: '1rem',
-            }}
-          >
-            {[
-              {
-                step: '01',
-                title: 'Enter your stack',
-                desc: 'Tell us which AI tools you pay for, what plan, and how many seats.',
-              },
-              {
-                step: '02',
-                title: 'Get your audit',
-                desc: "Instant, rule-based analysis — where you're overspending, what to switch, total savings.",
-              },
-              {
-                step: '03',
-                title: 'Share or act',
-                desc: 'Share a unique link with your team. Book a call if you want help acting on it.',
-              },
-            ].map((item) => (
-              <div
-                key={item.step}
-                style={{
-                  padding: '1.5rem',
-                  borderRadius: '0.75rem',
-                  border: '1px solid var(--border)',
-                  background: 'var(--bg-card)',
-                }}
-              >
-                <div
-                  style={{
-                    fontSize: '0.7rem',
-                    fontFamily: 'DM Mono, monospace',
-                    color: 'var(--accent)',
-                    marginBottom: '0.75rem',
-                  }}
-                >
-                  {item.step}
-                </div>
-                <h3
-                  style={{
-                    fontFamily: 'Syne, sans-serif',
-                    color: 'var(--text-primary)',
-                    fontWeight: 700,
-                    marginBottom: '0.5rem',
-                    fontSize: '1rem',
-                  }}
-                >
-                  {item.title}
-                </h3>
-                <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
-                  {item.desc}
-                </p>
+        <div id="how-it-works" style={{ marginBottom: '80px' }}>
+          <h2 style={{
+            fontFamily: 'Syne, sans-serif', fontWeight: 700,
+            fontSize: '1.5rem', color: 'var(--text-primary)',
+            textAlign: 'center', marginBottom: '40px',
+          }}>How it works</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
+            {steps.map(s => (
+              <div key={s.step} style={{
+                padding: '24px', borderRadius: '12px',
+                border: '1px solid var(--border)', background: 'var(--bg-card)',
+              }}>
+                <div style={{ fontSize: '11px', fontFamily: 'DM Mono, monospace', color: 'var(--accent)', marginBottom: '12px' }}>{s.step}</div>
+                <h3 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '8px', fontSize: '15px' }}>{s.title}</h3>
+                <p style={{ fontSize: '13px', color: 'var(--text-secondary)', lineHeight: 1.6 }}>{s.desc}</p>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Social proof */}
-        <div
-          style={{
-            borderRadius: '0.75rem',
-            border: '1px solid var(--border)',
-            background: 'var(--bg-card)',
-            padding: '2rem',
-            textAlign: 'center',
-            marginBottom: '4rem',
-          }}
-        >
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              gap: '3rem',
-              flexWrap: 'wrap',
-            }}
-          >
-            {[
-              { num: '$2,400', label: 'avg. annual savings found' },
-              { num: '< 2 min', label: 'to complete an audit' },
-              { num: '8 tools', label: 'audited in the engine' },
-            ].map((s) => (
+        {/* Stats */}
+        <div style={{
+          borderRadius: '16px', border: '1px solid var(--border)',
+          background: 'var(--bg-card)', padding: '40px 32px',
+          marginBottom: '64px', textAlign: 'center',
+        }}>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '48px', flexWrap: 'wrap' }}>
+            {stats.map(s => (
               <div key={s.label}>
-                <div
-                  style={{
-                    fontFamily: 'Syne, sans-serif',
-                    color: 'var(--accent)',
-                    fontSize: '2rem',
-                    fontWeight: 800,
-                    marginBottom: '0.25rem',
-                  }}
-                >
-                  {s.num}
-                </div>
-                <div style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>
-                  {s.label}
-                </div>
+                <div style={{ fontFamily: 'Syne, sans-serif', color: 'var(--accent)', fontSize: '2.2rem', fontWeight: 800, marginBottom: '4px' }}>{s.num}</div>
+                <div style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>{s.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* FAQ preview */}
+        <div style={{ marginBottom: '64px' }}>
+          <h2 style={{
+            fontFamily: 'Syne, sans-serif', fontWeight: 700,
+            fontSize: '1.5rem', color: 'var(--text-primary)',
+            textAlign: 'center', marginBottom: '32px',
+          }}>Common questions</h2>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            {[
+              { q: 'Is this actually free?', a: 'Yes, completely. No credit card, no trial. The audit is free because SpendLens is built by Credex — we only make money if you buy discounted credits through us.' },
+              { q: 'How accurate is the pricing data?', a: 'Every price is sourced from official vendor pricing pages with URLs and dates logged in our public PRICING_DATA.md. We update it weekly.' },
+              { q: 'Do you store my data?', a: 'Form inputs are saved in your browser only. If you enter your email for the report, that is stored securely. Shareable URLs strip all PII — only tools and savings numbers are shown.' },
+            ].map(faq => (
+              <div key={faq.q} style={{
+                padding: '20px 24px', borderRadius: '12px',
+                border: '1px solid var(--border)', background: 'var(--bg-card)',
+              }}>
+                <div style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '8px', fontSize: '14px' }}>{faq.q}</div>
+                <div style={{ fontSize: '13px', color: 'var(--text-secondary)', lineHeight: 1.6 }}>{faq.a}</div>
               </div>
             ))}
           </div>
@@ -306,39 +181,19 @@ export default function LandingPage() {
           <button
             onClick={() => navigate('/audit')}
             style={{
-              background: 'var(--accent)',
-              color: '#000',
-              fontFamily: 'Syne, sans-serif',
-              fontWeight: 700,
-              fontSize: '1rem',
-              padding: '1rem 2rem',
-              borderRadius: '0.75rem',
-              border: 'none',
-              cursor: 'pointer',
+              background: 'var(--accent)', color: '#000',
+              fontFamily: 'Syne, sans-serif', fontWeight: 700,
+              fontSize: '1rem', padding: '14px 32px',
+              borderRadius: '10px', border: 'none', cursor: 'pointer',
               transition: 'all 0.2s',
             }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'var(--accent-hover)'
-              e.currentTarget.style.transform = 'translateY(-2px)'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'var(--accent)'
-              e.currentTarget.style.transform = 'translateY(0)'
-            }}
+            onMouseEnter={e => { e.currentTarget.style.background = 'var(--accent-hover)'; e.currentTarget.style.transform = 'translateY(-2px)' }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'var(--accent)'; e.currentTarget.style.transform = 'translateY(0)' }}
           >
             Start your free audit →
           </button>
-          <p style={{ marginTop: '1rem', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-            Built by{' '}
-            <a
-              href="https://credex.rocks"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ color: 'var(--accent)' }}
-            >
-              Credex
-            </a>{' '}
-            · AI infrastructure credits at a discount
+          <p style={{ marginTop: '16px', fontSize: '12px', color: 'var(--text-muted)' }}>
+            Built by <a href="https://credex.rocks" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>Credex</a> · AI infrastructure credits at a discount
           </p>
         </div>
       </div>

@@ -94,4 +94,22 @@ Day 6 — UI polish (fix mobile layout, Lighthouse scores), complete USER_INTERV
 
 ---
 
-<!-- Day 6-7 entries will be added each day -->
+## Day 6 — 2025-05-25
+
+**Hours worked:** 5
+
+**What I did:**
+Polished the landing page significantly — rewrote the layout using clean inline styles for reliable cross-environment rendering, added a FAQ section with 3 real questions, improved the stats block, and tightened spacing throughout. Fixed the Vercel build errors from Days 5 by converting the api/ TypeScript files to plain JavaScript using native fetch instead of the Anthropic and Resend SDKs — this eliminated the missing module errors without changing any functionality. Added tsconfig.node.json to properly separate browser and Node type environments. Completed first user interview (notes in USER_INTERVIEWS.md). Two more interviews scheduled for tomorrow morning before submission.
+
+**What I learned:**
+Vercel serverless functions in the api/ folder are type-checked separately from the Vite browser build. When you use TypeScript in api/ files, Vercel needs the SDK packages installed as regular dependencies not devDependencies, and needs @types/node for process.env access. The simpler fix was converting to JS with native fetch — fewer dependencies, same functionality, zero build errors. Also: the landing page FAQ section consistently gets positive feedback from users — people want to know if it is really free before they click the CTA.
+
+**Blockers / what I am stuck on:**
+Two user interviews still pending — scheduled for tomorrow morning. Will update USER_INTERVIEWS.md before final submission.
+
+**Plan for tomorrow:**
+Day 7 — complete USER_INTERVIEWS.md with all 3 interviews, final README polish with screenshots, verify git log has commits on 5+ distinct days, run final checks, submit Google Form.
+
+---
+
+<!-- Day 7 entry will be added on submission day -->
