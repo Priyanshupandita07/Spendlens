@@ -50,15 +50,12 @@ export default function LandingPage() {
         </div>
 
         {/* Headline */}
-        <h1 style={{
-          fontFamily: 'Syne, sans-serif', fontWeight: 800,
-          fontSize: 'clamp(2.8rem, 8vw, 5.5rem)',
-          lineHeight: 1.05, letterSpacing: '-0.02em',
-          textAlign: 'center', color: 'var(--text-primary)',
-          marginBottom: '20px',
-        }}>
-          Are you <span style={{ color: 'var(--accent)', textShadow: '0 0 40px rgba(0,229,160,0.4)' }}>overpaying</span>
-          <br />for AI tools?
+        <h1 className="landing-headline">
+          Are you
+          <br />
+          <span className="landing-headline-accent">overpaying</span>
+          <br />
+          for AI tools?
         </h1>
 
         {/* Subheadline */}

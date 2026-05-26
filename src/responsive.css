@@ -71,6 +71,65 @@ img, svg, video {
   padding: 120px 24px 80px;
 }
 
+.landing-headline {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2rem, 7vw, 5.5rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  text-align: center;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  padding: 0 8px;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+.landing-headline-accent {
+  display: inline-block;
+  color: var(--accent);
+  text-shadow: 0 0 40px rgba(0, 229, 160, 0.4);
+  max-width: 100%;
+}
+
+@media (max-width: 480px) {
+  .landing-headline {
+    font-size: clamp(1.65rem, 6.8vw, 2.75rem);
+    letter-spacing: -0.01em;
+    padding: 0 12px;
+  }
+
+  .landing-headline-accent {
+    text-shadow: 0 0 24px rgba(0, 229, 160, 0.35);
+    font-size: clamp(1.55rem, 6.2vw, 2.65rem);
+  }
+}
+
+@media (max-width: 390px) {
+  .landing-headline {
+    font-size: clamp(1.5rem, 6.2vw, 2.4rem);
+    padding: 0 16px;
+  }
+
+  .landing-headline-accent {
+    font-size: clamp(1.45rem, 5.8vw, 2.3rem);
+    text-shadow: 0 0 16px rgba(0, 229, 160, 0.3);
+  }
+}
+
+/* iPhone SE and similar (320px) */
+@media (max-width: 340px) {
+  .landing-headline {
+    font-size: 1.45rem;
+    padding: 0 14px;
+  }
+
+  .landing-headline-accent {
+    font-size: 1.4rem;
+  }
+}
+
 .landing-stats-inner {
   display: flex;
   justify-content: center;
