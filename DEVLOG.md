@@ -112,4 +112,18 @@ Day 7 — complete USER_INTERVIEWS.md with all 3 interviews, final README polish
 
 ---
 
-<!-- Day 7 entry will be added on submission day -->
+## Day 7 — 2025-05-26
+
+**Hours worked:** 4
+
+**What I did:**
+Completed all three user interviews and wrote USER_INTERVIEWS.md with full notes, direct quotes, surprising moments, and design changes. Fixed a critical bug — the Navbar Start audit button was linking to /audit/new instead of /audit, causing a 404 on every click. Fixed results page and audit page layouts to be properly centered. Verified git commit spread: 5 distinct calendar days (May 21-26). Final submission checks: all required markdown files present at repo root, CI green, deployed URL reachable.
+
+**What I learned:**
+User interviews consistently surface unexpected things. Interview 3 was a student who wanted to know if they should UPGRADE, not downgrade. That reframed the optimal state messaging completely — the audit is not just for finding waste, it is also for validating that current spend is justified. Interview 2 (CTO) said he would share the report with investors, which reframed the shareable URL feature entirely.
+
+**Blockers / what I am stuck on:**
+None — submission day. Everything is shipped.
+
+**Plan for tomorrow:**
+Submitted. Waiting for Round 2 results within 3 working days of the deadline.
