@@ -34,13 +34,9 @@ export default function LandingPage() {
       }} />
 
       {/* Top glow */}
-      <div style={{
-        position: 'fixed', top: 0, left: '50%', transform: 'translateX(-50%)',
-        width: '700px', height: '400px', pointerEvents: 'none',
-        background: 'radial-gradient(ellipse at center top, rgba(0,229,160,0.1) 0%, transparent 65%)',
-      }} />
+      <div className="landing-glow" />
 
-      <div style={{ position: 'relative', maxWidth: '900px', margin: '0 auto', padding: '120px 24px 80px' }}>
+      <div className="landing-container">
 
         {/* Badge */}
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '28px' }}>
@@ -67,9 +63,9 @@ export default function LandingPage() {
 
         {/* Subheadline */}
         <p style={{
-          textAlign: 'center', fontSize: '1.1rem', lineHeight: 1.65,
+          textAlign: 'center', fontSize: 'clamp(0.95rem, 2.5vw, 1.1rem)', lineHeight: 1.65,
           color: 'var(--text-secondary)', maxWidth: '500px',
-          margin: '0 auto 36px',
+          margin: '0 auto 36px', padding: '0 8px',
         }}>
           The free AI spend auditor for startups. Input your stack, get an instant
           breakdown of where you're overspending — and exactly how much you can save.
@@ -137,15 +133,11 @@ export default function LandingPage() {
         </div>
 
         {/* Stats */}
-        <div style={{
-          borderRadius: '16px', border: '1px solid var(--border)',
-          background: 'var(--bg-card)', padding: '40px 32px',
-          marginBottom: '64px', textAlign: 'center',
-        }}>
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '48px', flexWrap: 'wrap' }}>
+        <div className="landing-stats-card">
+          <div className="landing-stats-inner">
             {stats.map(s => (
               <div key={s.label}>
-                <div style={{ fontFamily: 'Syne, sans-serif', color: 'var(--accent)', fontSize: '2.2rem', fontWeight: 800, marginBottom: '4px' }}>{s.num}</div>
+                <div className="landing-stat-num" style={{ fontFamily: 'Syne, sans-serif', color: 'var(--accent)', fontSize: '2.2rem', fontWeight: 800, marginBottom: '4px' }}>{s.num}</div>
                 <div style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>{s.label}</div>
               </div>
             ))}
@@ -165,7 +157,7 @@ export default function LandingPage() {
               { q: 'How accurate is the pricing data?', a: 'Every price is sourced from official vendor pricing pages with URLs and dates logged in our public PRICING_DATA.md. We update it weekly.' },
               { q: 'Do you store my data?', a: 'Form inputs are saved in your browser only. If you enter your email for the report, that is stored securely. Shareable URLs strip all PII — only tools and savings numbers are shown.' },
             ].map(faq => (
-              <div key={faq.q} style={{
+              <div key={faq.q} className="responsive-card" style={{
                 padding: '20px 24px', borderRadius: '12px',
                 border: '1px solid var(--border)', background: 'var(--bg-card)',
               }}>

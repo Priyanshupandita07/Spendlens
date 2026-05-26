@@ -9,7 +9,7 @@ export default function Navbar() {
       borderBottom: '1px solid var(--border)',
       background: 'rgba(8,8,8,0.85)', backdropFilter: 'blur(12px)',
     }}>
-      <div style={{ maxWidth: '960px', margin: '0 auto', padding: '0 24px', height: '56px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div className="navbar-inner">
         <a href="/" style={{ display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none' }}>
           <div style={{ width: '28px', height: '28px', borderRadius: '7px', background: 'var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <span style={{ color: '#000', fontWeight: 800, fontSize: '14px', fontFamily: 'DM Mono, monospace' }}>$</span>
@@ -19,13 +19,14 @@ export default function Navbar() {
           </span>
         </a>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
-          <a href="/#how-it-works" style={{ fontSize: '13px', color: 'var(--text-secondary)', textDecoration: 'none' }}
+        <div className="navbar-links">
+          <a href="/#how-it-works" className="navbar-how-it-works" style={{ fontSize: '13px', color: 'var(--text-secondary)', textDecoration: 'none' }}
             onMouseEnter={e => (e.currentTarget.style.color = 'var(--text-primary)')}
             onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-secondary)')}>
             How it works
           </a>
           <button
+            className="navbar-cta"
             onClick={() => navigate('/audit')}
             style={{
               fontSize: '13px', padding: '6px 16px', borderRadius: '999px',

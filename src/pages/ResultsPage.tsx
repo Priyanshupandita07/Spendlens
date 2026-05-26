@@ -22,12 +22,12 @@ function ToolResultCard({ result }: { result: ToolAuditResult }) {
   const label = TYPE_LABELS[result.recommendationType] ?? 'REVIEW'
 
   return (
-    <div style={{
+    <div className="responsive-card" style={{
       borderRadius: '12px', padding: '20px',
       border: `1px solid ${isOptimal ? 'var(--border)' : color + '35'}`,
       background: 'var(--bg-card)', marginBottom: '10px',
     }}>
-      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '12px', marginBottom: '12px' }}>
+      <div className="tool-result-header">
         <div style={{ flex: 1 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
             <span style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: '15px', color: 'var(--text-primary)' }}>
@@ -44,7 +44,7 @@ function ToolResultCard({ result }: { result: ToolAuditResult }) {
           </div>
         </div>
         {!isOptimal && (
-          <div style={{ textAlign: 'right', flexShrink: 0 }}>
+          <div className="tool-result-savings" style={{ textAlign: 'right', flexShrink: 0 }}>
             <div style={{ fontFamily: 'DM Mono, monospace', fontSize: '14px', fontWeight: 700, color: 'var(--accent)' }}>
               −${fmt(result.potentialMonthlySavings)}/mo
             </div>
@@ -134,7 +134,7 @@ function LeadCaptureForm({ auditId, monthlySavings, isHighSavings }: {
             style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', fontSize: '13px', outline: 'none', background: 'var(--bg)', border: '1px solid var(--border-hover)', color: 'var(--text-primary)' }}
             onFocus={e => (e.target.style.borderColor = 'var(--accent)')} onBlur={e => (e.target.style.borderColor = 'var(--border-hover)')} />
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+        <div className="lead-form-grid">
           <div>
             <label style={{ fontSize: '11px', color: 'var(--text-secondary)', display: 'block', marginBottom: '5px', fontWeight: 500 }}>Company</label>
             <input type="text" placeholder="Acme Inc." value={company} onChange={e => setCompany(e.target.value)}
@@ -237,7 +237,7 @@ export default function ResultsPage() {
         backgroundSize: '40px 40px', opacity: 0.3,
       }} />
 
-      <div style={{ position: 'relative', maxWidth: '640px', margin: '0 auto', padding: '100px 24px 80px' }}>
+      <div className="page-container">
 
         {/* Breadcrumb */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '28px' }}>
@@ -251,11 +251,9 @@ export default function ResultsPage() {
         </div>
 
         {/* Hero savings card */}
-        <div style={{
-          borderRadius: '16px', padding: '36px', marginBottom: '16px', textAlign: 'center',
+        <div className="results-hero" style={{
           border: `1px solid ${isOptimal ? 'var(--border)' : 'var(--accent)'}`,
           background: isOptimal ? 'var(--bg-card)' : 'var(--accent-dim)',
-          position: 'relative', overflow: 'hidden',
         }}>
           {!isOptimal && (
             <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 50% 0%, rgba(0,229,160,0.12) 0%, transparent 60%)', pointerEvents: 'none' }} />
@@ -265,7 +263,7 @@ export default function ResultsPage() {
               <div style={{ width: '48px', height: '48px', borderRadius: '50%', border: '2px solid var(--accent)', background: 'var(--accent-dim)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
               </div>
-              <h1 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: '1.75rem', color: 'var(--text-primary)', marginBottom: '8px' }}>You're spending well</h1>
+              <h1 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: 'clamp(1.35rem, 5vw, 1.75rem)', color: 'var(--text-primary)', marginBottom: '8px' }}>You're spending well</h1>
               <p style={{ fontSize: '14px', color: 'var(--text-secondary)' }}>
                 Your AI stack of <strong style={{ color: 'var(--text-primary)' }}>${fmt(summary.totalCurrentMonthlySpend)}/mo</strong> is well-optimised. No obvious waste found.
               </p>
@@ -273,11 +271,11 @@ export default function ResultsPage() {
           ) : (
             <div style={{ position: 'relative' }}>
               <div style={{ fontSize: '11px', fontFamily: 'DM Mono, monospace', color: 'var(--accent)', marginBottom: '12px', letterSpacing: '0.08em' }}>POTENTIAL SAVINGS IDENTIFIED</div>
-              <div style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: '5rem', lineHeight: 1, color: 'var(--accent)', textShadow: '0 0 40px rgba(0,229,160,0.4)', marginBottom: '4px' }}>
+              <div className="results-savings-amount">
                 ${fmt(summary.totalPotentialMonthlySavings)}
               </div>
               <div style={{ fontSize: '15px', color: 'var(--text-secondary)', marginBottom: '8px' }}>per month</div>
-              <div style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: '1.4rem', color: 'var(--text-primary)', marginBottom: '16px' }}>
+              <div style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: 'clamp(1.1rem, 4vw, 1.4rem)', color: 'var(--text-primary)', marginBottom: '16px' }}>
                 ${fmt(summary.totalPotentialAnnualSavings)} annually
               </div>
               <div style={{ fontSize: '12px', padding: '4px 12px', borderRadius: '999px', background: 'rgba(0,0,0,0.3)', color: 'var(--text-secondary)', display: 'inline-block' }}>
@@ -288,7 +286,7 @@ export default function ResultsPage() {
         </div>
 
         {/* Share buttons */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '20px' }}>
+        <div className="results-share-grid">
           {[
             { label: copied ? '✓ Link copied!' : '📋 Share this audit', action: copyShareLink, active: copied },
             { label: '↩ Edit inputs', action: () => navigate('/audit'), active: false },
@@ -306,7 +304,7 @@ export default function ResultsPage() {
         {/* Credex CTA */}
         {isHighSavings && (
           <div style={{ borderRadius: '12px', border: '1px solid var(--accent)', background: 'var(--bg-card)', padding: '20px', marginBottom: '20px' }}>
-            <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+            <div className="credex-cta-row">
               <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: 'var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Syne, sans-serif', fontWeight: 800, color: '#000', fontSize: '18px', flexShrink: 0 }}>$</div>
               <div>
                 <div style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '6px' }}>Credex can capture even more of this</div>

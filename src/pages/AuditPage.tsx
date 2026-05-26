@@ -111,7 +111,7 @@ function ToolCard({ tool, onToggle, onUpdate }: ToolCardProps) {
 
         {/* Right side */}
         {tool.enabled && tool.monthlySpend > 0 ? (
-          <div style={{ fontFamily: 'DM Mono, monospace', fontSize: '13px', fontWeight: 600, color, flexShrink: 0 }}>
+          <div className="tool-card-header-price" style={{ fontFamily: 'DM Mono, monospace', fontSize: '13px', fontWeight: 600, color, flexShrink: 0 }}>
             ${fmt(tool.monthlySpend)}/mo
           </div>
         ) : (
@@ -130,7 +130,7 @@ function ToolCard({ tool, onToggle, onUpdate }: ToolCardProps) {
           borderTop: `1px solid ${color}20`,
           paddingTop: '14px',
         }}>
-          <div style={{ display: 'grid', gridTemplateColumns: isAPI ? '1fr 1fr' : '1fr 80px 100px', gap: '10px' }}>
+          <div className={`tool-card-grid${isAPI ? ' is-api' : ''}`}>
             {/* Plan */}
             <div>
               <label style={{ fontSize: '11px', color: 'var(--text-secondary)', display: 'block', marginBottom: '6px', fontWeight: 500 }}>
@@ -271,7 +271,7 @@ export default function AuditPage() {
         backgroundSize: '40px 40px', opacity: 0.3,
       }} />
 
-      <div style={{ position: 'relative', maxWidth: '640px', margin: '0 auto', padding: '100px 24px 80px' }}>
+      <div className="page-container">
 
         {/* Header */}
         <div style={{ marginBottom: '32px' }}>
@@ -283,7 +283,7 @@ export default function AuditPage() {
             <span style={{ color: 'var(--text-muted)', fontSize: '12px' }}>/</span>
             <span style={{ fontSize: '12px', fontFamily: 'DM Mono, monospace', color: 'var(--accent)' }}>Audit</span>
           </div>
-          <h1 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: '2rem', color: 'var(--text-primary)', marginBottom: '8px' }}>
+          <h1 className="page-title">
             Your AI stack
           </h1>
           <p style={{ fontSize: '14px', color: 'var(--text-secondary)' }}>
@@ -293,11 +293,7 @@ export default function AuditPage() {
 
         {/* Live spend counter */}
         {totalSpend > 0 && (
-          <div style={{
-            borderRadius: '12px', border: '1px solid var(--accent)',
-            background: 'var(--accent-dim)', padding: '16px 20px',
-            marginBottom: '20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          }}>
+          <div className="spend-counter">
             <div>
               <div style={{ fontSize: '10px', fontFamily: 'DM Mono, monospace', color: 'var(--accent)', marginBottom: '4px', letterSpacing: '0.08em' }}>
                 CURRENT MONTHLY SPEND
@@ -306,7 +302,7 @@ export default function AuditPage() {
                 ${fmt(totalSpend)}<span style={{ fontSize: '14px', fontWeight: 400, color: 'var(--text-secondary)' }}>/mo</span>
               </div>
             </div>
-            <div style={{ textAlign: 'right' }}>
+            <div className="spend-counter-right" style={{ textAlign: 'right' }}>
               <div style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>${fmt(totalSpend * 12)}/year</div>
               <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '2px' }}>{enabledCount} tool{enabledCount !== 1 ? 's' : ''} tracked</div>
             </div>
@@ -321,7 +317,7 @@ export default function AuditPage() {
           <h2 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, fontSize: '14px', color: 'var(--text-primary)', marginBottom: '16px' }}>
             Team context
           </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+          <div className="team-context-grid">
             <div>
               <label style={{ fontSize: '11px', color: 'var(--text-secondary)', display: 'block', marginBottom: '6px', fontWeight: 500 }}>
                 Team size (people)
@@ -386,8 +382,9 @@ export default function AuditPage() {
         {error && <p style={{ fontSize: '13px', color: 'var(--red)', textAlign: 'center', marginBottom: '12px' }}>{error}</p>}
 
         {/* Submit */}
-        <div style={{ display: 'flex', gap: '10px' }}>
+        <div className="audit-submit-row">
           <button
+            className="audit-submit-btn"
             onClick={handleSubmit}
             disabled={loading || enabledCount === 0}
             style={{
@@ -409,6 +406,7 @@ export default function AuditPage() {
                 : `Run audit — ${enabledCount} tool${enabledCount > 1 ? 's' : ''} · $${fmt(totalSpend)}/mo →`}
           </button>
           <button
+            className="audit-reset-btn"
             onClick={() => { if (confirm('Reset all form data?')) setFormData(DEFAULT_FORM) }}
             title="Reset"
             style={{

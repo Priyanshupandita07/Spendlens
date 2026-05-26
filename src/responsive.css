@@ -1,0 +1,344 @@
+/* Responsive layout — desktop appearance unchanged; adapts below breakpoints */
+
+/* ── Global ── */
+html {
+  -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+img, svg, video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ── Navbar ── */
+.navbar-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+@media (max-width: 480px) {
+  .navbar-inner {
+    padding: 0 16px;
+    height: 52px;
+  }
+
+  .navbar-links {
+    gap: 12px;
+  }
+
+  .navbar-how-it-works {
+    display: none;
+  }
+
+  .navbar-cta {
+    font-size: 12px !important;
+    padding: 6px 12px !important;
+  }
+}
+
+/* ── Landing page ── */
+.landing-glow {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(700px, 100vw);
+  height: min(400px, 60vh);
+  pointer-events: none;
+  background: radial-gradient(ellipse at center top, rgba(0,229,160,0.1) 0%, transparent 65%);
+}
+
+.landing-container {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 120px 24px 80px;
+}
+
+.landing-stats-inner {
+  display: flex;
+  justify-content: center;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+
+.landing-stats-card {
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  padding: 40px 32px;
+  margin-bottom: 64px;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .landing-container {
+    padding: 100px 20px 64px;
+  }
+
+  .landing-stats-card {
+    padding: 32px 20px;
+    margin-bottom: 48px;
+  }
+
+  .landing-stats-inner {
+    gap: 32px 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .landing-container {
+    padding: 88px 16px 48px;
+  }
+
+  .landing-stats-card {
+    padding: 28px 16px;
+    margin-bottom: 40px;
+  }
+
+  .landing-stats-inner {
+    flex-direction: column;
+    gap: 28px;
+    align-items: center;
+  }
+
+  .landing-stat-num {
+    font-size: 1.75rem !important;
+  }
+}
+
+/* ── Shared page container (audit + results) ── */
+.page-container {
+  position: relative;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 100px 24px 80px;
+}
+
+@media (max-width: 768px) {
+  .page-container {
+    padding: 92px 20px 64px;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-container {
+    padding: 84px 16px 48px;
+  }
+}
+
+.page-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.5rem, 5vw, 2rem);
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+/* ── Audit page ── */
+.spend-counter {
+  border-radius: 12px;
+  border: 1px solid var(--accent);
+  background: var(--accent-dim);
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.team-context-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.tool-card-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 1fr 80px 100px;
+}
+
+.tool-card-grid.is-api {
+  grid-template-columns: 1fr 1fr;
+}
+
+.audit-submit-row {
+  display: flex;
+  gap: 10px;
+}
+
+.audit-submit-btn {
+  flex: 1;
+  min-width: 0;
+}
+
+@media (max-width: 520px) {
+  .team-context-grid,
+  .tool-card-grid,
+  .tool-card-grid.is-api {
+    grid-template-columns: 1fr;
+  }
+
+  .spend-counter {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .spend-counter-right {
+    text-align: left !important;
+  }
+
+  .audit-submit-row {
+    flex-direction: column;
+  }
+
+  .audit-reset-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 380px) {
+  .tool-card-header-price {
+    display: none;
+  }
+}
+
+/* ── Results page ── */
+.results-hero {
+  border-radius: 16px;
+  padding: 36px;
+  margin-bottom: 16px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.results-savings-amount {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.5rem, 12vw, 5rem);
+  line-height: 1;
+  color: var(--accent);
+  text-shadow: 0 0 40px rgba(0,229,160,0.4);
+  margin-bottom: 4px;
+}
+
+.results-share-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.lead-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.credex-cta-row {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.tool-result-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 768px) {
+  .results-hero {
+    padding: 28px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .results-hero {
+    padding: 24px 16px;
+  }
+
+  .lead-form-grid,
+  .results-share-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .credex-cta-row {
+    flex-direction: column;
+  }
+
+  .tool-result-header {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .tool-result-savings {
+    text-align: left !important;
+  }
+}
+
+/* ── FAQ / cards — prevent horizontal overflow ── */
+.responsive-card {
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* Prevent iOS zoom on form focus */
+@media (max-width: 768px) {
+  .page-container input[type="number"],
+  .page-container input[type="email"],
+  .page-container input[type="text"],
+  .page-container select {
+    font-size: 16px;
+  }
+}
+
+/* Safe area for notched devices */
+@supports (padding: max(0px)) {
+  .navbar-inner {
+    padding-left: max(24px, env(safe-area-inset-left));
+    padding-right: max(24px, env(safe-area-inset-right));
+  }
+
+  .landing-container,
+  .page-container {
+    padding-left: max(24px, env(safe-area-inset-left));
+    padding-right: max(24px, env(safe-area-inset-right));
+  }
+
+  @media (max-width: 480px) {
+    .navbar-inner {
+      padding-left: max(16px, env(safe-area-inset-left));
+      padding-right: max(16px, env(safe-area-inset-right));
+    }
+
+    .landing-container,
+    .page-container {
+      padding-left: max(16px, env(safe-area-inset-left));
+      padding-right: max(16px, env(safe-area-inset-right));
+    }
+  }
+}
